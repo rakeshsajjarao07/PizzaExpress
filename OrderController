@@ -1,0 +1,117 @@
+package com.example.pizza.controller;
+
+import com.example.pizza.entity.Customer;
+import com.example.pizza.entity.OrderItem;
+import com.example.pizza.enums.OrderStatus;
+import com.example.pizza.repository.CustomerRepository;
+import com.example.pizza.repository.OrderItemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Controller
+public class OrderController {
+
+    @Autowired
+    private CustomerRepository customerRepo;
+
+    @Autowired
+    private OrderItemRepository orderRepo;
+
+    private static final Map<Integer, String> pizzaNames = new HashMap<>();
+    private static final Map<Integer, Double> pizzaPrices = new HashMap<>();
+
+    static {
+        pizzaNames.put(1, "Margherita");
+        pizzaNames.put(2, "Pepperoni");
+        pizzaNames.put(3, "Veggie Delight");
+
+        pizzaPrices.put(1, 199.0);
+        pizzaPrices.put(2, 249.0);
+        pizzaPrices.put(3, 329.0);
+    }
+
+    // Show the order form at the root URL
+    @GetMapping("/")
+    public String showForm(Model model) {
+        model.addAttribute("pizzaNames", pizzaNames);
+        return "form"; // form.html
+    }
+
+    // Submit order
+    @PostMapping("/submitOrder")
+    public String placeOrder(
+            @RequestParam String customerName,
+            @RequestParam String email,
+            @RequestParam String phone,
+            @RequestParam int pizzaId,
+            @RequestParam int quantity
+    ) {
+        // Create and save the customer
+        Customer customer = new Customer();
+        customer.setName(customerName);
+        customer.setEmail(email);
+        customer.setPhone(phone);
+        customerRepo.save(customer);
+
+        // Create and save the order item
+        OrderItem order = new OrderItem();
+        order.setCustomer(customer);
+        order.setPizzaId(pizzaId);
+        order.setPizzaName(pizzaNames.get(pizzaId));
+        order.setQuantity(quantity);
+        order.setTotalPrice(quantity * pizzaPrices.getOrDefault(pizzaId, 199.0));
+        order.setOrderStatus(OrderStatus.PENDING); // Default to PENDING status
+        System.out.println("Pizza ID: " + pizzaId + ", Quantity: " + quantity + ", Price: " + pizzaPrices.get(pizzaId));
+
+
+        orderRepo.save(order);
+
+        return "redirect:/success"; // Redirect to success page after submission
+    }
+
+    // Show the list of orders with pagination
+    @GetMapping("/orders")
+    public String viewOrders(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            Model model
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<OrderItem> orderPage = orderRepo.findAll(pageable);
+
+        model.addAttribute("orders", orderPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", orderPage.getTotalPages());
+        model.addAttribute("totalItems", orderPage.getTotalElements());
+
+        return "orderList"; // orderList.html
+    }
+
+    // Show success page after order
+    @GetMapping("/success")
+    public String successPage() {
+        return "success"; // success.html
+    }
+
+    // ✅ New: Check order status by order ID
+    @GetMapping("/orderStatus/{id}")
+    public String checkOrderStatus(@PathVariable int id, Model model) {
+        OrderItem order = orderRepo.findById(id).orElse(null);
+
+        if (order == null) {
+            model.addAttribute("error", "Order not found with ID: " + id);
+        } else {
+            model.addAttribute("order", order);
+        }
+
+        return "orderStatus"; // orderStatus.html (to be created)
+    }
+}
