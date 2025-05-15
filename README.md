@@ -1,104 +1,39 @@
-# PizzaExpress
+#PizzaExpress
 
-DESCRIPTION:
------------
- A full-stack web application that allows customers to place pizza orders, view order history, and check order status. Admins (or the backend) can track order processing using order statuses.
- 
-TECHNOLOGIES USED:
+**Project Name: PizzaExpress**
+------------------------------
+A simple and interactive Pizza Ordering System built using Spring Boot, allowing customers to place pizza orders online, view order history, and track status.
+
+**Description :**
 -----------------
-**Backend (Java + Spring Boot) :**
+PizzaExpress is a web-based pizza ordering application developed with Java Spring Boot. It allows users to:
 
-Spring Boot: Used as the main framework to create RESTful controllers, manage application configuration, and handle MVC logic.
+Fill out a form to order pizza.
 
-Spring Data JPA: For database operations (CRUD) using repositories without writing SQL queries manually.
+Choose from multiple pizza types and specify quantity.
 
-Hibernate: JPA implementation for ORM (Object-Relational Mapping).
+View all orders (admin view).
 
-Jakarta Persistence API (JPA): Used for defining entities like OrderItem and Customer.
+Check the status of an individual order.
 
-**Database :**
+The system uses Thymeleaf for rendering dynamic web pages, connects to a MySQL database using Spring Data JPA, and maintains a clean MVC architecture.
 
-MySQL: Relational database used to store customer data, order items, and order status.
+**Technologies / Tools Used :**
+------------------------------
 
-JPA Repositories: Interfaces like CustomerRepository and OrderItemRepository interact with the MySQL database.
-
-**Frontend :**
-
-HTML/CSS: Used to build the UI for the order form and display pages.
-
-**Other Java Componenets :**
-
-Enums: Used to define OrderStatus (e.g., PENDING, PROCESSING, COMPLETED).
-
-Annotations: @Entity, @Controller, @Repository, @Autowired, etc., to simplify Spring development.
-
-MVC Pattern: Followed to separate concerns between Model (entities), View (HTML pages), and Controller (Spring controller).
-
-**Features Implemented: **
----------------------------
-
-1.Pizza order placement form.
-
-2.Customer and order details stored in MySQL.
-
-3.Paginated order list (/orders endpoint).
-
-4.Order status check by ID (/orderStatus/{id}).
-
-5.Pizza names and prices managed via backend logic.
-
-6.Success page shown after order placement.
-
-** Project Folder Structure**
------------------------------
-
-pizza-project/
-├── src/
-│   └── main/
-│       ├── java/
-│       │   └── com/example/pizza/
-│       │       ├── controller/
-│       │       │   └── OrderController.java
-│       │       ├── entity/
-│       │       │   ├── Customer.java
-│       │       │   └── OrderItem.java
-│       │       ├── enums/
-│       │       │   └── OrderStatus.java
-│       │       └── repository/
-│       │           ├── CustomerRepository.java
-│       │           └── OrderItemRepository.java
-│       ├── resources/
-│       │   ├── application.properties
-│       │   └── templates/ (if using Thymeleaf)
-│       │       ├── form.html
-│       │       ├── orderList.html
-│       │       ├── orderStatus.html
-│       │       └── success.html
-│       │   └── static/
-│       │       └── css/
-│       │           └── styles.css
-├── pom.xml (for Maven dependencies)
-└── README.md
+| Category                    | Tools/Technologies                             |
+| --------------------------- | ---------------------------------------------- |
+| **Backend**                 | Java, Spring Boot, Spring MVC, Spring Data JPA |
+| **Frontend**                | HTML, CSS, Thymeleaf                           |
+| **Database**                | MySQL                                          |
+| **Build Tool**              | Maven                                          |
+| **IDE**                     | Eclipse IDE / VS Code                          |
+| **Version Control**         | Git, GitHub                                    |
 
 
-## Technologies Used details : 
-- Java 17
-- Spring Boot
-- Spring Data JPA
-- MySQL
-- HTML/CSS
-- MVC Architecture
+**_Developed by:_**
+-----------------
 
-## Setup
-1. Clone the repo
-2. Configure `application.properties` with your MySQL credentials
-3. Run the application using your IDE or `mvn spring-boot:run`
-4. Access `http://localhost:8080/`
+Name: SAJJARAO RAKESH 
 
-## Author
-
-_SAJJARAO RAKESH_ – [https://www.linkedin.com/in/sajjarao-rakesh-837234281/]
-
-
-
-
+linkedin : https://www.linkedin.com/in/sajjarao-rakesh-837234281/
