@@ -39,4 +39,4 @@ Name: SAJJARAO RAKESH
 linkedin : https://www.linkedin.com/in/sajjarao-rakesh-837234281/
 
 
-**to know more open wiki.**
+**to know step by step procedure to develope the project, open : https://github.com/rakeshsajjarao07 .**
